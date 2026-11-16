@@ -1,0 +1,199 @@
+<!-- COMPONENTE DE TERMINAL DE HISTORIA (SIN <!DOCTYPE>, <html>, <head> NI <body>) -->
+<div class="story-terminal" id="story-terminal-root">
+  <div class="story-terminal__crt" id="story-terminal-crt"></div>
+
+  <div class="story-terminal__ruler story-terminal__ruler--left"></div>
+  <div class="story-terminal__ruler story-terminal__ruler--right"></div>
+
+  <div class="story-terminal__main">
+    <!-- BARRA SUPERIOR -->
+    <div class="story-terminal__header">
+      <div class="story-terminal__brand">
+        <div class="story-terminal__title">//EXPLORACIÓN DE MARTE</div>
+        <div class="story-terminal__equalizer" aria-hidden="true">
+          <span class="story-terminal__signal-bar"></span>
+          <span class="story-terminal__signal-bar"></span>
+          <span class="story-terminal__signal-bar"></span>
+          <span class="story-terminal__signal-bar"></span>
+          <span class="story-terminal__signal-bar"></span>
+        </div>
+      </div>
+
+      <div class="story-terminal__controls">
+        <svg class="story-terminal__globe" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+          <circle cx="20" cy="20" r="16" stroke-dasharray="3 2"/>
+          <g class="story-terminal__wireframe-spin">
+            <ellipse cx="20" cy="20" rx="16" ry="6"/>
+            <ellipse cx="20" cy="20" rx="6" ry="16"/>
+            <line x1="2" y1="20" x2="38" y2="20" stroke-opacity="0.5"/>
+            <line x1="20" y1="2" x2="20" y2="38" stroke-opacity="0.5"/>
+          </g>
+        </svg>
+        <button type="button" class="story-terminal__btn" data-st-action="toggle-crt">
+          EFECTO CRT: <span id="story-terminal-crt-status">ACTIVADO</span>
+        </button>
+        <button type="button" class="story-terminal__btn story-terminal__btn--close" data-st-action="close" title="Cerrar terminal">
+          ✕ CERRAR
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR CENTRAL -->
+    <div class="story-terminal__viewport">
+
+      <!-- PANTALLA INICIAL DE DESCARGA -->
+      <div id="story-terminal-download" class="story-terminal__download-screen">
+        <button type="button" class="story-terminal__download-btn story-terminal__hud-amber" data-st-action="start-transmission">
+          <div class="story-terminal__download-badge">
+            <span class="story-terminal__badge-dot"></span>
+            <span>PAQUETE DE TELEMETRÍA LISTO</span>
+          </div>
+          <div class="story-terminal__download-label">
+            <span>DESCARGAR</span>
+            <span class="story-terminal__dots-loader">
+              <span class="story-terminal__dot-pulse">.</span>
+              <span class="story-terminal__dot-pulse">.</span>
+              <span class="story-terminal__dot-pulse">.</span>
+            </span>
+          </div>
+        </button>
+      </div>
+
+      <!-- CONTENEDOR DE ESCENAS -->
+      <div id="story-terminal-scenes" class="story-terminal__scenes story-terminal--hidden">
+      <!-- ESCENA 01 -->
+        <section class="story-terminal__scene" data-st-scene="0">
+          <div class="story-terminal__media-card story-terminal__media-card--left story-terminal__hud-green">
+            <div class="story-terminal__media-meta">
+              <span>REGISTRO FOTOGRÁFICO // 01</span>
+              <span>ARCH_IMG</span>
+            </div>
+            <div class="story-terminal__media-frame">
+              <img src="recursos/imagenes/imagen-1.jpeg" alt="Plataforma en Marte" />
+            </div>
+          </div>
+
+          <div class="story-terminal__story-card story-terminal__hud-amber">
+            <div>
+              <div class="story-terminal__story-header">
+                <span class="story-terminal__status-dot"></span>
+                <span>PARTE 1 // EL DESCENSO HACIA MARTE</span>
+              </div>
+              <p class="story-terminal__copy" data-fulltext="Durante el recorrido, cada sistema debía funcionar con <strong>precisión</strong>, porque no habría una segunda oportunidad para corregir el rumbo una vez que llegara el momento decisivo. El <strong>4 de julio de 1997</strong>, la misión alcanzó la <strong>atmósfera marciana</strong>. Entonces comenzó una de las etapas más arriesgadas de toda la aventura: atravesar la atmósfera, soportar temperaturas extremas y reducir la velocidad hasta alcanzar la superficie. Con ayuda de un <strong>paracaídas</strong>, motores de frenado y un sistema de <strong>bolsas de aire</strong>, la plataforma consiguió amortiguar el impacto. Después de un viaje de millones de kilómetros, finalmente había llegado a su nuevo hogar."></p>
+            </div>
+            <div class="story-terminal__telemetry-footer">
+              <div class="story-terminal__progress-track">
+                <div class="story-terminal__progress-fill" style="width: 33%;"></div>
+              </div>
+              <span class="story-terminal__sector-tag">SECTOR 01</span>
+            </div>
+          </div>
+
+          <div class="story-terminal__media-card story-terminal__media-card--right story-terminal__hud-green">
+            <div class="story-terminal__media-meta">
+              <span>SEÑAL VISUAL // 21S</span>
+              <span>VID_01</span>
+            </div>
+            <div class="story-terminal__media-frame">
+              <video class="story-terminal__video" src="videos/video-4.mp4" muted playsinline loop preload="metadata"></video>
+            </div>
+          </div>
+        </section>
+
+        <!-- ESCENA 02 -->
+        <section class="story-terminal__scene" data-st-scene="1">
+          <div class="story-terminal__media-card story-terminal__media-card--left story-terminal__hud-green">
+            <div class="story-terminal__media-meta">
+              <span>SEÑAL VISUAL // 57S</span>
+              <span>VID_02</span>
+            </div>
+            <div class="story-terminal__media-frame">
+              <video class="story-terminal__video" src="videos/video-5.mp4" muted playsinline loop preload="metadata"></video>
+            </div>
+          </div>
+
+          <div class="story-terminal__story-card story-terminal__hud-amber">
+            <div>
+              <div class="story-terminal__story-header">
+                <span class="story-terminal__status-dot"></span>
+                <span>PARTE 2 // UNA PLATAFORMA QUE DESPIERTA</span>
+              </div>
+              <p class="story-terminal__copy" data-fulltext="Pero llegar a <strong>Marte</strong> no significaba que la misión hubiera terminado. En realidad, era el comienzo de una nueva etapa. Una vez sobre la superficie, la plataforma de aterrizaje comenzó a <strong>desplegar sus pétalos</strong>, abriendo lentamente sus estructuras hasta revelar los instrumentos que llevaba consigo. Aquella plataforma no era solamente un vehículo que había conseguido sobrevivir al aterrizaje: se convertiría en el <strong>centro de operaciones</strong> de toda la misión, transmitiendo imágenes, información y señales hacia la <strong>Tierra</strong>. Desde allí comenzaría una nueva aventura."></p>
+            </div>
+            <div class="story-terminal__telemetry-footer">
+              <div class="story-terminal__progress-track">
+                <div class="story-terminal__progress-fill" style="width: 66%;"></div>
+              </div>
+              <span class="story-terminal__sector-tag">SECTOR 02</span>
+            </div>
+          </div>
+
+          <div class="story-terminal__media-card story-terminal__media-card--right story-terminal__hud-green">
+            <div class="story-terminal__media-meta">
+              <span>SEÑAL VISUAL // 39S</span>
+              <span>VID_03</span>
+            </div>
+            <div class="story-terminal__media-frame">
+              <video class="story-terminal__video" src="videos/video-5.mp4" muted playsinline loop preload="metadata"></video>
+            </div>
+          </div>
+        </section>
+
+        <!-- ESCENA 03 -->
+        <section class="story-terminal__scene" data-st-scene="2">
+          <div class="story-terminal__media-card story-terminal__media-card--left story-terminal__hud-green">
+            <div class="story-terminal__media-meta">
+              <span>REGISTRO FOTOGRÁFICO // 02</span>
+              <span>ARCH_IMG</span>
+            </div>
+            <div class="story-terminal__media-frame">
+              <img src="recursos/imagenes/imagen-2.jpeg" alt="Sojourner y plataforma" />
+            </div>
+          </div>
+
+          <div class="story-terminal__story-card story-terminal__hud-amber">
+            <div>
+              <div class="story-terminal__story-header">
+                <span class="story-terminal__status-dot"></span>
+                <span>PARTE 3 // LOS PRIMEROS PASOS</span>
+              </div>
+              <p class="story-terminal__copy" data-fulltext="Se desplegaron las rampas que permitirían descender al pequeño <strong>explorador robótico</strong> que había viajado hasta Marte. Con cada movimiento, los mecanismos debían responder con precisión, porque aquel pequeño vehículo estaba a punto de convertirse en los ojos y las ruedas de la humanidad sobre otro planeta. Finalmente, <strong>Sojourner</strong> descendió por la rampa y tocó el <strong>suelo marciano</strong>. Era un momento histórico: por primera vez, un vehículo robótico móvil de la <strong>NASA</strong> comenzaba a explorar la superficie de Marte. Lo que durante años había sido un sueño, ahora se movía sobre otro mundo. Y así, paso a paso, comenzaba una nueva forma de descubrir el universo."></p>
+            </div>
+            <div class="story-terminal__telemetry-footer">
+              <div class="story-terminal__progress-track">
+                <div class="story-terminal__progress-fill" style="width: 100%;"></div>
+              </div>
+              <span class="story-terminal__sector-tag">SECTOR 03</span>
+            </div>
+          </div>
+
+          <div class="story-terminal__media-card story-terminal__media-card--right story-terminal__hud-green">
+            <div class="story-terminal__media-meta">
+              <span>SEÑAL VISUAL // 52S</span>
+              <span>VID_04</span>
+            </div>
+            <div class="story-terminal__media-frame">
+              <video class="story-terminal__video" src="videos/video-6.mp4" muted playsinline loop preload="metadata"></video>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- BARRA INFERIOR DE CONTROLES INTERNOS -->
+    <div id="story-terminal-footer" class="story-terminal__footer story-terminal--hidden">
+      <button type="button" id="story-terminal-prev" class="story-terminal__btn" data-st-action="prev" disabled>← ANTERIOR</button>
+      <div class="story-terminal__pagination">
+        <div class="story-terminal__line"></div>
+        <div class="story-terminal__dots" id="story-terminal-dots">
+          <span class="story-terminal__dot story-terminal__dot--active"></span>
+          <span class="story-terminal__dot"></span>
+          <span class="story-terminal__dot"></span>
+        </div>
+        <div class="story-terminal__line"></div>
+      </div>
+      <button type="button" id="story-terminal-next" class="story-terminal__btn story-terminal__btn--bold" data-st-action="next">SIGUIENTE →</button>
+    </div>
+  </div>
+</div>

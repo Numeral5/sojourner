@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+﻿import * as THREE from 'three';
 import { PointerLockControls } from
 'three/examples/jsm/controls/PointerLockControls.js';
 import { GLTFLoader } from
@@ -19,7 +19,7 @@ const scene = new THREE.Scene();
 //scene.background = new THREE.Color(0xFF8000);
 
 // ==========================================
-// 2. CÁMARA
+// 2. CÃMARA
 // ==========================================
 
 const camera = new THREE.PerspectiveCamera(
@@ -59,7 +59,7 @@ const controls = new PointerLockControls(
 );
 
 // ==========================================
-// SISTEMA DE HISTORIA AUTOMÁTICA - PARTE 1
+// SISTEMA DE HISTORIA AUTOMÃTICA - PARTE 1
 // ==========================================
 
 const contenedorHistoria = document.getElementById('contenedorHistoria');
@@ -83,7 +83,7 @@ let temporizadorHistoriaP1 = null;
 const movementSpeed = 8;
 
 // ==========================================
-// SISTEMA DE FÍSICAS - RAPIER
+// SISTEMA DE FÃSICAS - RAPIER
 // ==========================================
 
 let physicsWorld;
@@ -105,7 +105,7 @@ async function inicializarFisicas() {
         z: 0
     });
 
-    // Jugador: cuerpo cinemático
+    // Jugador: cuerpo cinemÃ¡tico
     const playerDesc =
         RAPIER.RigidBodyDesc.kinematicPositionBased()
             .setTranslation(
@@ -116,7 +116,7 @@ async function inicializarFisicas() {
 
     playerBody = physicsWorld.createRigidBody(playerDesc);
 
-    // Cápsula del jugador
+    // CÃ¡psula del jugador
     const playerColliderDesc =
         RAPIER.ColliderDesc.capsule(2.5, 0.5);
 
@@ -128,7 +128,7 @@ async function inicializarFisicas() {
     characterController =
     physicsWorld.createCharacterController(0.05);
 
-// Configuración del movimiento
+// ConfiguraciÃ³n del movimiento
 characterController.setMaxSlopeClimbAngle(
     45 * Math.PI / 180
 );
@@ -141,7 +141,7 @@ characterController.enableAutostep(
 
 characterController.enableSnapToGround(0.25);
 
-    console.log('Sistema de físicas inicializado');
+    console.log('Sistema de fÃ­sicas inicializado');
 
 }
 await inicializarFisicas();
@@ -202,7 +202,7 @@ mensajeInteraccion.style.cssText = `
 document.body.appendChild(mensajeInteraccion);
 
 
-// Panel que mostrará la historia
+// Panel que mostrarÃ¡ la historia
 
 const panelHistoria = document.createElement('div');
 
@@ -224,7 +224,7 @@ panelHistoria.innerHTML = `
         cursor: pointer;
         z-index: 40;
     ">
-        Cerrar ✕
+        Cerrar âœ•
     </button>
 
     <div id="historiaContenido"></div>
@@ -244,7 +244,7 @@ const botonCerrar = panelHistoria.querySelector(
 /////////////////////
 
 // =================================
-// MÚSICA AMBIENTAL DE MARTE
+// MÃšSICA AMBIENTAL DE MARTE
 // =================================
 
 const musicaMarte = new Audio(
@@ -316,7 +316,7 @@ btnUnderstood1.addEventListener('click', () => {
 
 });
 
-// FINALIZAR INTRODUCCIÓN
+// FINALIZAR INTRODUCCIÃ“N
 
 btnUnderstood2.addEventListener('click', () => {
 
@@ -325,7 +325,7 @@ btnUnderstood2.addEventListener('click', () => {
 
     introOverlay.classList.add('fade-out');
 
-    // Iniciar música
+    // Iniciar mÃºsica
     iniciarMusica();
 
     // Activar controles de primera persona
@@ -344,16 +344,16 @@ btnUnderstood2.addEventListener('click', () => {
 
     temporizadorHistoriaP1 = setTimeout(async () => {
 
-        // Marcar que la historia está abierta
+        // Marcar que la historia estÃ¡ abierta
         historiaAutomaticaAbierta = true;
 
-        // Ocultar el menú de pausa
+        // Ocultar el menÃº de pausa
         pauseOverlay.style.display = 'none';
 
         try {
 
             // Abrir la historia
-            await terminalHistoria.abrir('/recursos/historias/historiaP1.html');
+            await terminalHistoria.abrir(`${import.meta.env.BASE_URL}recursos/historias/historiaP1.html`);
 
             console.log('Historia Parte 1 abierta correctamente');
 
@@ -371,13 +371,13 @@ btnUnderstood2.addEventListener('click', () => {
 //////
 
 // ==========================================
-// MENÚ DE PAUSA
+// MENÃš DE PAUSA
 // ==========================================
 
 const pauseOverlay = document.createElement('div');
 
 pauseOverlay.innerHTML = `
-    <h2>Exploración pausada</h2>
+    <h2>ExploraciÃ³n pausada</h2>
     <p>Haz clic para continuar</p>
 `;
 
@@ -398,7 +398,7 @@ pauseOverlay.style.cssText = `
 document.body.appendChild(pauseOverlay);
 
 
-// Reanudar exploración
+// Reanudar exploraciÃ³n
 
 pauseOverlay.addEventListener('click', () => {
 
@@ -496,14 +496,14 @@ async function abrirHistoria(item) {
     mensajeInteraccion.style.display = 'none';
 
     // Mostrar el panel antes de desbloquear el cursor.
-    // Así el menú de pausa no aparece accidentalmente.
+    // AsÃ­ el menÃº de pausa no aparece accidentalmente.
     panelHistoria.style.display = 'block';
     pauseOverlay.style.display = 'none';
 
     controls.unlock();
 
     // Las historias con inicializador propio
-    // tienen su propio botón de cierre.
+    // tienen su propio botÃ³n de cierre.
     botonCerrar.style.display = item.inicializar ? 'none' : 'block';
 
     historiaContenido.innerHTML = `
@@ -555,7 +555,7 @@ async function abrirHistoria(item) {
 
 
 // ==========================================
-// EVENTO DEL BOTÓN EXTERIOR DE CERRAR
+// EVENTO DEL BOTÃ“N EXTERIOR DE CERRAR
 // ==========================================
 
 botonCerrar.addEventListener('click', cerrarPanelHistoria);
@@ -617,7 +617,7 @@ scene.add(sunlight);
 // Color del cielo: naranja rojizo
 scene.background = new THREE.Color(0xEA9371);
 
-// Bruma atmosférica
+// Bruma atmosfÃ©rica
 
 scene.fog = new THREE.Fog(0xEA9371, 100, 250);
 ///////////////////
@@ -631,7 +631,7 @@ const solMaterial = new THREE.MeshBasicMaterial({
 
 const sol = new THREE.Mesh(solGeometry, solMaterial);
 
-// Posición en el cielo
+// PosiciÃ³n en el cielo
 sol.position.set(-35, 35, -80);
 
 scene.add(sol);
@@ -803,11 +803,11 @@ loaderSojo.load(
 
         agregarColliderFijoDesdeModelo(rover, 0.85);
 
-        // Registrar interacción con el Sojourner
+        // Registrar interacciÃ³n con el Sojourner
         agregarObjetoInteractivo(
             rover,
             'Rover Sojourner',
-            '/recursos/historias/sojou.html',
+            `${import.meta.env.BASE_URL}recursos/historias/sojou.html`,
             30,
             inicializarSojou
         );
@@ -824,7 +824,7 @@ loaderSojo.load(
 );
 
 // ==========================================
-// MÓDULO DE ATERRIZAJE
+// MÃ“DULO DE ATERRIZAJE
 // ==========================================
 
 let moduloAterrizaje;
@@ -849,23 +849,23 @@ loaderModulo.load(
             0.9
         );
 
-        // Registrar interacción
+        // Registrar interacciÃ³n
             agregarObjetoInteractivo(
             moduloAterrizaje,
-            'Módulo de aterrizaje',
-            '/recursos/historias/modulo.html',
+            'MÃ³dulo de aterrizaje',
+            `${import.meta.env.BASE_URL}recursos/historias/modulo.html`,
             30,
             inicializarModulo
         );
 
-        console.log('Módulo de aterrizaje cargado e interactivo');
+        console.log('MÃ³dulo de aterrizaje cargado e interactivo');
 
     },
 
     undefined,
 
     (error) => {
-        console.error('Error cargando el módulo:', error);
+        console.error('Error cargando el mÃ³dulo:', error);
     }
 );
 
@@ -876,7 +876,7 @@ loaderModulo.load(
 // ==========================================
 
 // ==========================================
-// ROCAS - DISTRIBUCIÓN MARCIANA
+// ROCAS - DISTRIBUCIÃ“N MARCIANA
 // ==========================================
 
 const loaderRoca = new GLTFLoader();
@@ -896,7 +896,7 @@ function getTerrainHeight(x, z) {
 
 function crearColliderTerreno() {
 
-    // Geometría invisible de menor resolución
+    // GeometrÃ­a invisible de menor resoluciÃ³n
     const collisionGeometry = new THREE.PlaneGeometry(
         600,
         600,
@@ -963,7 +963,7 @@ function agregarColliderFijoDesdeModelo(objeto, factor = 0.9) {
     box.getSize(size);
     box.getCenter(center);
 
-    // Crear cuerpo físico fijo
+    // Crear cuerpo fÃ­sico fijo
     const body = physicsWorld.createRigidBody(
         RAPIER.RigidBodyDesc.fixed()
             .setTranslation(
@@ -986,7 +986,7 @@ function agregarColliderFijoDesdeModelo(objeto, factor = 0.9) {
 
 
 
-// Crear colisión del terreno
+// Crear colisiÃ³n del terreno
 crearColliderTerreno();
 
 // Ajustar jugador a la altura inicial del terreno
@@ -1023,7 +1023,7 @@ camera.position.y = centroJugador + PLAYER_EYE_OFFSET;
 
 // ==========================================
 // MODELO 1 - ROCK001
-// Rocas pequeñas, medianas y grandes
+// Rocas pequeÃ±as, medianas y grandes
 // ==========================================
 
 const posicionesRocas = [
@@ -1053,7 +1053,7 @@ const posicionesRocas = [
     { x: 45, z: -95, escala: 3 },
     { x: -110, z: -70, escala: 4 },
 
-    // ALREDEDORES DEL MÓDULO
+    // ALREDEDORES DEL MÃ“DULO
     { x: -95, z: -129, escala: 7 },
     { x: -70, z: -134, escala: 1.5 },
     { x: -85, z: -110, escala: 2 },
@@ -1061,7 +1061,7 @@ const posicionesRocas = [
     { x: -25, z: -145, escala: 6 },
     { x: -10, z: -120, escala: 2 },
 
-    // LEJANÍA - formaciones grandes
+    // LEJANÃA - formaciones grandes
     { x: -140, z: -160, escala: 8 },
     { x: -180, z: -100, escala: 9 },
     { x: -120, z: -190, escala: 7 },
@@ -1079,7 +1079,7 @@ const posicionesRocas = [
 
 // ==========================================
 // MODELO 2 - ROCA2
-// Variación de formas
+// VariaciÃ³n de formas
 // ==========================================
 
 const posicionesRocas02 = [
@@ -1108,12 +1108,12 @@ const posicionesRocas02 = [
     { x: 110, z: 30, escala: 1 },
     { x: -110, z: 35, escala: 0.9 },
 
-    // ALREDEDORES DEL MÓDULO
+    // ALREDEDORES DEL MÃ“DULO
     { x: -120, z: -115, escala: 3 },
     { x: -35, z: -150, escala: 2 },
     { x: -75, z: -155, escala: 2.5 },
 
-    // LEJANÍA
+    // LEJANÃA
     { x: -170, z: -175, escala: 5 },
     { x: -100, z: -205, escala: 5},
     { x: 60, z: -185, escala: 4 },
@@ -1129,7 +1129,7 @@ const posicionesRocas02 = [
 
 // ==========================================
 // MODELO 3 - ROCA3
-// Formaciones rocosas más llamativas
+// Formaciones rocosas mÃ¡s llamativas
 // ==========================================
 
 const posicionesRocas03 = [
@@ -1156,13 +1156,13 @@ const posicionesRocas03 = [
     { x: 120, z: 65, escala: 4 },
     { x: -110, z: 85, escala: 4 },
 
-    // ALREDEDORES DEL MÓDULO
+    // ALREDEDORES DEL MÃ“DULO
     { x: -35, z: -125, escala: 3 },
     { x: -90, z: -145, escala: 4 },
     { x: -120, z: -90, escala: 3 },
     { x: -20, z: -165, escala: 3 },
 
-    // LEJANÍA - rocas grandes
+    // LEJANÃA - rocas grandes
     { x: -195, z: -160, escala: 9 },
     { x: -130, z: -205, escala: 8 },
     { x: -35, z: -210, escala: 10 },
@@ -1178,7 +1178,7 @@ const posicionesRocas03 = [
 
 
 // ==========================================
-// FUNCIÓN PARA COLOCAR LAS ROCAS
+// FUNCIÃ“N PARA COLOCAR LAS ROCAS
 // ==========================================
 
 function colocarRoca(roca, x, z, escala, rotacion = 0) {
@@ -1195,7 +1195,7 @@ function colocarRoca(roca, x, z, escala, rotacion = 0) {
     roca.position.y = getTerrainHeight(x, z) - box.min.y;
 
     scene.add(roca);
-        // Agregar física a la roca
+        // Agregar fÃ­sica a la roca
     agregarColliderFijoDesdeModelo(roca, 0.85);
 }
 
@@ -1383,7 +1383,7 @@ document.addEventListener('keyup', (event) => {
 });
 
 // ==========================================
-// 8. CICLO DE ANIMACIÓN
+// 8. CICLO DE ANIMACIÃ“N
 // ==========================================
 
 const clock = new THREE.Clock();
@@ -1392,7 +1392,7 @@ function animate() {
     requestAnimationFrame(animate);
 
     const delta = Math.min(clock.getDelta(), 0.05);
-    // Movimiento panorámico durante la introducción
+    // Movimiento panorÃ¡mico durante la introducciÃ³n
    if (introActiva) {
 
     const tiempo = clock.elapsedTime;
@@ -1421,14 +1421,14 @@ if (controls.isLocked) {
         right /= length;
     }
 
-    // Dirección hacia adelante de la cámara
+    // DirecciÃ³n hacia adelante de la cÃ¡mara
     const forwardDirection =
         camera.getWorldDirection(new THREE.Vector3());
 
     forwardDirection.y = 0;
     forwardDirection.normalize();
 
-    // Dirección lateral
+    // DirecciÃ³n lateral
     const rightDirection =
         new THREE.Vector3().crossVectors(
             forwardDirection,
@@ -1467,10 +1467,10 @@ if (controls.isLocked) {
     const correctedMovement =
         characterController.computedMovement();
 
-    // Posición actual del jugador
+    // PosiciÃ³n actual del jugador
     const currentPosition = playerBody.translation();
 
-    // Aplicar movimiento al cuerpo cinemático
+    // Aplicar movimiento al cuerpo cinemÃ¡tico
     playerBody.setNextKinematicTranslation({
 
         x: currentPosition.x + correctedMovement.x,
@@ -1481,7 +1481,7 @@ if (controls.isLocked) {
 
     });
 
-    // Comprobar si está apoyado en el suelo
+    // Comprobar si estÃ¡ apoyado en el suelo
     if (characterController.computedGrounded()) {
         verticalVelocity = 0;
     }
@@ -1495,13 +1495,13 @@ if (controls.isLocked) {
         );
 
 }
-    // Actualizar física
+    // Actualizar fÃ­sica
      physicsWorld.timestep = delta;
     physicsWorld.step();
 
 
 
-    // Detectar si el jugador está cerca de un objeto interactivo
+    // Detectar si el jugador estÃ¡ cerca de un objeto interactivo
     detectarObjetoCercano();
 renderer.render(scene, camera);
 }

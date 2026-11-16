@@ -1,0 +1,420 @@
+<!-- COMPONENTE INTEGRABLE: TERMINAL DE HISTORIA (PARTE 1) -->
+<style>
+  /* Estilos encapsulados bajo .hp1-terminal-wrapper para evitar colisiones con la escena 3D */
+  .hp1-terminal-wrapper {
+    --hp1-amber: #ff9e00;
+    --hp1-amber-glow: rgba(255, 158, 0, 0.35);
+    --hp1-orange: #ffb74d;
+    --hp1-orange-glow: rgba(255, 183, 77, 0.45);
+    --hp1-green: #39ff14;
+    --hp1-dark-bg: rgba(5, 8, 10, 0.82);
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    font-family: 'Share Tech Mono', monospace, sans-serif;
+    color: #d1d5db;
+    box-sizing: border-box;
+    user-select: none;
+  }
+
+  .hp1-terminal-wrapper * {
+    box-sizing: border-box;
+  }
+
+  .hp1-crt-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    background-size: 100% 3px, 6px 100%;
+    pointer-events: none;
+    z-index: 50;
+    border-radius: 6px;
+  }
+
+  .hp1-crt-overlay.hp1-hidden {
+    display: none;
+  }
+
+  .hp1-control-panel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+    background: var(--hp1-dark-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--hp1-amber);
+    box-shadow: 0 0 30px rgba(255, 158, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(0.8rem, 1.5vw, 1.25rem) clamp(1rem, 2vw, 1.5rem);
+    animation: hp1PanelOpen 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes hp1PanelOpen {
+    from { opacity: 0; transform: scale(0.97) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* BARRA SUPERIOR */
+  .hp1-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 158, 0, 0.3);
+    padding-bottom: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  .hp1-title {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--hp1-amber);
+    font-size: clamp(0.8rem, 1.2vw, 1.05rem);
+    letter-spacing: 0.14em;
+    font-weight: 700;
+  }
+
+  .hp1-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .hp1-btn-retro {
+    background: rgba(255, 158, 0, 0.12);
+    border: 1px solid var(--hp1-amber);
+    color: var(--hp1-amber);
+    padding: 0.35rem 0.75rem;
+    font-size: clamp(0.7rem, 0.9vw, 0.78rem);
+    cursor: pointer;
+    font-family: 'Share Tech Mono', monospace;
+    text-shadow: 0 0 6px var(--hp1-amber-glow);
+    transition: all 0.2s ease;
+  }
+
+  .hp1-btn-retro:hover:not(:disabled) {
+    background: rgba(255, 158, 0, 0.32);
+    box-shadow: 0 0 12px var(--hp1-amber-glow);
+  }
+
+  .hp1-btn-retro:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  /* CONTENEDOR DE ESCENAS */
+  .hp1-scenes-container {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    margin: 0.85rem 0;
+    overflow: hidden;
+  }
+
+  .hp1-scene {
+    display: none;
+    position: absolute;
+    inset: 0;
+    grid-template-columns: 0.95fr 1.25fr;
+    gap: clamp(0.85rem, 1.5vw, 1.35rem);
+    align-items: center;
+    height: 100%;
+  }
+
+  .hp1-scene.hp1-active,
+  .hp1-scene.hp1-enter-right,
+  .hp1-scene.hp1-enter-left,
+  .hp1-scene.hp1-leave-left,
+  .hp1-scene.hp1-leave-right {
+    display: grid;
+  }
+
+  .hp1-scene.hp1-enter-right { animation: hp1InRight 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .hp1-scene.hp1-leave-left  { animation: hp1OutLeft 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; pointer-events: none; }
+  .hp1-scene.hp1-enter-left  { animation: hp1InLeft 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .hp1-scene.hp1-leave-right { animation: hp1OutRight 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; pointer-events: none; }
+
+  @keyframes hp1InRight {
+    from { opacity: 0; transform: translateX(100%); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes hp1OutLeft {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(-100%); }
+  }
+  @keyframes hp1InLeft {
+    from { opacity: 0; transform: translateX(-100%); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes hp1OutRight {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(100%); }
+  }
+
+  /* CAJA IZQUIERDA */
+  .hp1-box-info {
+    background: rgba(5, 8, 10, 0.88);
+    border: 1px solid var(--hp1-amber);
+    padding: clamp(0.85rem, 1.4vw, 1.2rem);
+    box-shadow: 0 0 15px rgba(255, 158, 0, 0.15);
+    width: fit-content;
+    max-width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+  }
+
+  .hp1-box-label {
+    font-size: 0.72rem;
+    color: var(--hp1-amber);
+    margin-bottom: 0.45rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hp1-story-copy {
+    font-size: clamp(0.8rem, 1.05vw, 0.96rem);
+    line-height: 1.48;
+    margin: 0;
+    color: #f1f5f9;
+  }
+
+  .hp1-keyword {
+    color: var(--hp1-orange);
+    text-shadow: 0 0 8px var(--hp1-orange-glow);
+    font-weight: 700;
+  }
+
+  .hp1-typing-cursor::after {
+    content: '█';
+    color: var(--hp1-amber);
+    margin-left: 2px;
+    animation: hp1CursorBlink 0.75s steps(2) infinite;
+  }
+
+  @keyframes hp1CursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* COLUMNA DERECHA */
+  .hp1-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    min-height: 0;
+    justify-content: space-between;
+  }
+
+  .hp1-media-box {
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid var(--hp1-green);
+    padding: 0.6rem 0.75rem;
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hp1-media-header {
+    font-family: 'VT323', monospace;
+    color: var(--hp1-green);
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .hp1-video-container {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    background: #000;
+    overflow: hidden;
+    border: 1px solid rgba(57, 255, 20, 0.4);
+  }
+
+  .hp1-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hp1-info-bottom {
+    background: rgba(5, 8, 10, 0.88);
+    border: 1px solid var(--hp1-amber);
+    padding: 0.8rem 1rem;
+    box-shadow: 0 0 15px rgba(255, 158, 0, 0.15);
+    width: fit-content;
+    max-width: 100%;
+    flex-shrink: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .hp1-info-bottom.hp1-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .hp1-story-copy-short {
+    font-size: clamp(0.76rem, 0.98vw, 0.88rem);
+    line-height: 1.42;
+    margin: 0;
+    color: #e2e8f0;
+  }
+
+  /* NAVEGACIÓN INFERIOR */
+  .hp1-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 158, 0, 0.3);
+    padding-top: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  .hp1-dots {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .hp1-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #475569;
+    transition: all 0.3s ease;
+  }
+
+  .hp1-dot.hp1-active {
+    background: var(--hp1-amber);
+    box-shadow: 0 0 8px var(--hp1-amber-glow);
+    transform: scale(1.3);
+  }
+
+  /* ADAPTABILIDAD PARA PANTALLAS PEQUEÑAS O VENTANAS REDUCIDAS */
+  @media (max-width: 820px) {
+    .hp1-scene {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+      overflow-y: auto;
+    }
+    .hp1-right-column {
+      height: auto;
+    }
+    .hp1-video-container {
+      min-height: 160px;
+    }
+  }
+</style>
+
+<div class="hp1-terminal-wrapper" id="hp1-root">
+  <div class="hp1-crt-overlay" id="hp1-crt"></div>
+
+  <div class="hp1-control-panel">
+    <!-- BARRA SUPERIOR -->
+    <div class="hp1-header">
+      <div class="hp1-title">// EXPLORACIÓN DE MARTE - PANEL DE CONTROL</div>
+      <div class="hp1-header-actions">
+        <button type="button" class="hp1-btn-retro" data-hp1-action="toggle-crt">
+          CRT: <span id="hp1-crt-status">ACTIVADO</span>
+        </button>
+        <button type="button" class="hp1-btn-retro" data-hp1-action="close-terminal" title="Cerrar terminal y volver a Marte [ESC]">
+          ✕ CERRAR [ESC]
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR DE ESCENAS -->
+    <div class="hp1-scenes-container">
+    <!-- ESCENA 01 -->
+      <section class="hp1-scene hp1-active" data-hp1-scene="0">
+        <div class="hp1-box-info">
+          <div class="hp1-box-label">REGISTRO // 01 (PARTE A)</div>
+          <p class="hp1-story-copy">Durante décadas, <span class="hp1-keyword">Marte</span> había sido uno de los grandes misterios del espacio. Después de las primeras exploraciones realizadas en los <span class="hp1-keyword">años 70</span>, la <span class="hp1-keyword">NASA</span> soñaba con regresar a <span class="hp1-keyword">Marte</span> para descubrir qué secretos escondía su superficie. Sin embargo, explorar otro planeta era una tarea enorme y costosa, y los grandes proyectos espaciales requerían años de preparación y enormes presupuestos.</p>
+        </div>
+
+        <div class="hp1-right-column">
+          <div class="hp1-media-box">
+            <div class="hp1-media-header">SEÑAL VISUAL // ARCHIVO 01/03</div>
+            <div class="hp1-video-container">
+              <video class="hp1-scene-video" src="videos/video-1.mov" muted playsinline loop preload="metadata"></video>
+            </div>
+          </div>
+
+          <div class="hp1-info-bottom">
+            <div class="hp1-box-label">DETALLE TÉCNICO B</div>
+            <p class="hp1-story-copy-short">Pero los científicos e ingenieros no estaban dispuestos a abandonar ese sueño. A principios de los <span class="hp1-keyword">años 90</span> comenzó a tomar forma una nueva manera de explorar el universo: realizar misiones más económicas, rápidas y eficientes. Así nació una nueva oportunidad para volver a <span class="hp1-keyword">Marte</span>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESCENA 02 -->
+      <section class="hp1-scene" data-hp1-scene="1">
+        <div class="hp1-box-info">
+          <div class="hp1-box-label">REGISTRO // 02 (PARTE A)</div>
+          <p class="hp1-story-copy">Llegar a <span class="hp1-keyword">Marte</span> era solamente el comienzo; el verdadero desafío era encontrar una manera de hacerlo posible sin repetir los enormes costos de las misiones anteriores. En el <span class="hp1-keyword">Laboratorio de Propulsión a Chorro (JPL)</span>, un equipo de científicos e ingenieros comenzó a trabajar bajo una filosofía que cambiaría la forma de explorar el espacio: hacer las cosas mejor, más rápido y con menos recursos.</p>
+        </div>
+
+        <div class="hp1-right-column">
+          <div class="hp1-media-box">
+            <div class="hp1-media-header">SEÑAL VISUAL // ARCHIVO 02/03</div>
+            <div class="hp1-video-container">
+              <video class="hp1-scene-video" src="videos/video-2.mov" muted playsinline loop preload="metadata"></video>
+            </div>
+          </div>
+
+          <div class="hp1-info-bottom">
+            <div class="hp1-box-label">DETALLE TÉCNICO B</div>
+            <p class="hp1-story-copy-short">No tenían un camino sencillo ni todas las respuestas, pero sí una enorme determinación. Lo que parecía una misión demasiado ambiciosa comenzó a convertirse en un proyecto real.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESCENA 03 -->
+      <section class="hp1-scene" data-hp1-scene="2">
+        <div class="hp1-box-info">
+          <div class="hp1-box-label">REGISTRO // 03 (PARTE A)</div>
+          <p class="hp1-story-copy">Después de años de investigación, planificación y trabajo en equipo, llegó el momento de convertir aquel sueño en realidad. El <span class="hp1-keyword">4 de diciembre de 1996</span>, desde <span class="hp1-keyword">Cabo Cañaveral</span>, Estados Unidos, comenzó un viaje histórico rumbo al <span class="hp1-keyword">planeta rojo</span>. Durante más de siete meses, la misión recorrió millones de kilómetros a través del espacio.</p>
+        </div>
+
+        <div class="hp1-right-column">
+          <div class="hp1-media-box">
+            <div class="hp1-media-header">SEÑAL VISUAL // ARCHIVO 03/03</div>
+            <div class="hp1-video-container">
+              <video class="hp1-scene-video" src="videos/video-3.mov" muted playsinline loop preload="metadata"></video>
+            </div>
+          </div>
+
+          <div class="hp1-info-bottom">
+            <div class="hp1-box-label">DETALLE TÉCNICO B</div>
+            <p class="hp1-story-copy-short">La espera terminó el <span class="hp1-keyword">4 de julio de 1997</span>, cuando la misión consiguió alcanzar la superficie marciana, marcando el regreso a <span class="hp1-keyword">Marte</span>.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- NAVEGACIÓN INFERIOR -->
+    <div class="hp1-footer">
+      <button type="button" class="hp1-btn-retro" data-hp1-action="prev" disabled>← ANTERIOR</button>
+      <div class="hp1-dots">
+        <span class="hp1-dot hp1-active"></span>
+        <span class="hp1-dot"></span>
+        <span class="hp1-dot"></span>
+      </div>
+      <button type="button" class="hp1-btn-retro" data-hp1-action="next">SIGUIENTE →</button>
+    </div>
+  </div>
+</div>
