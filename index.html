@@ -1,15 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Explorar Marte</title>
+
+    <link rel="stylesheet" href="/recursos/PANTALLAINICIO/inicio.css">
+    <link rel="stylesheet" href="/recursos/historias/modulo.css">
+    <link rel="stylesheet" href="/recursos/historias/sojou.css">
+
     <style>
-        body {margin: 0;}
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #contenedorHistoria {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+        }
     </style>
 </head>
+
 <body>
-    <script type="module"  src="/main.js"></script>
-        
-</script>
+
+    <!-- Contenedor de la historia automática -->
+    <div id="contenedorHistoria"></div>
+
+    <!-- Pantalla de inicio -->
+    <div id="intro-overlay" class="hud-overlay">
+
+        <!-- PASO 1 -->
+        <section id="step-1" class="hud-step active">
+            <div class="hud-frame title-frame">
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+
+                <span class="hud-tag">SYS.TELEMETRY // 1997-ARES-VALLIS</span>
+                <h1 class="mission-title">MISSION MARS<br>PATHFINDER</h1>
+                <div class="hud-divider"></div>
+
+                <button id="btn-start" class="hud-btn" type="button">
+                    INICIAR
+                </button>
+            </div>
+        </section>
+
+        <!-- PASO 2 -->
+        <section id="step-2" class="hud-step hidden">
+            <div class="hud-frame briefing-frame">
+                <div class="hud-header-bar">
+                    <span>BRIEFING DE MISIÓN</span>
+                    <span class="blink">● LIVE</span>
+                </div>
+
+                <h2 class="welcome-title">¡BIENVENIDO!</h2>
+
+                <p class="mission-desc">
+                    Tu misión es encontrar al <strong>Sojourner</strong>
+                    y aprender sobre su misión.
+                </p>
+
+                <div class="rover-preview">
+                    <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Sojourner_on_Mars_PIA01122.jpg/640px-Sojourner_on_Mars_PIA01122.jpg"
+                        alt="Rover Sojourner en Marte"
+                    >
+                    <div class="scan-line"></div>
+                </div>
+
+                <button id="btn-understood-1" class="hud-btn" type="button">
+                    ENTENDIDO
+                </button>
+            </div>
+        </section>
+
+        <!-- PASO 3 -->
+        <section id="step-3" class="hud-step hidden">
+            <div class="hud-frame controls-frame">
+                <div class="hud-header-bar">
+                    <span>SISTEMA DE NAVEGACIÓN</span>
+                    <span>CTRL-03</span>
+                </div>
+
+                <h2 class="controls-title">Utiliza las teclas:</h2>
+
+                <ul class="controls-list">
+                    <li><span class="key-badge">W A S D</span> - Moverse</li>
+                    <li><span class="key-badge">Mouse</span> - Mirar alrededor</li>
+                    <li><span class="key-badge">ESC</span> - Liberar el cursor</li>
+                </ul>
+
+                <button id="btn-understood-2" class="hud-btn" type="button">
+                    COMENZAR
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Juego principal -->
+    <script type="module" src="/main.js"></script>
+
 </body>
 </html>
