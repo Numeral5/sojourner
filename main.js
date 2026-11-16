@@ -449,7 +449,7 @@ function detectarObjetoCercano() {
 
         item.objeto.getWorldPosition(posicionObjeto);
 
-        const distancia = camera.position.distanceTo(posicionObjeto);      
+    const distancia = camera.position.distanceTo(posicionObjeto);      
         if (distancia <= item.distancia) {
         objetoCercano = item;
         }
@@ -1522,5 +1522,5 @@ window.addEventListener('resize', () => {
         window.innerWidth,
         window.innerHeight
     );
-});
-
+}
+);
